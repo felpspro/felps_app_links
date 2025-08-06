@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--  -->
+    <script src="https://cdn.felps.cc/public/js/jquery-3.5.1.min.js"></script>
+    <link rel="shortcut icon" href="https://cdn.felps.cc/public/images/faviconPreto.png" type="image/x-icon">
+    <title><%= title %></title>
+</head>
+<style>
+    /*  */
+    /*  */
+    /*  */
+</style>
+<body>
+    <%- html %>
+</body>
+<script>
+
+    const data_css = '<%= (css) %>';
+    $('style').text(data_css)
+</script>
+</html>
