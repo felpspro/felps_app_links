@@ -29,6 +29,12 @@ app.get(/.*/, async (req, res) => {
             return res.status(204).end(); // ou apenas res.end()
         }
 
+        console.log({
+            method: "GET",
+            url: "/module/links/public/get",
+            params: { url: req.path }
+        })
+
         // Buscar na api
         const data = await API({
             method: "GET",
@@ -47,12 +53,12 @@ app.get(/.*/, async (req, res) => {
         })
         if(data.status==200){
             if(data.data.isPage){   
-            res.render('./page.ejs', {
-                title: data.data.data.title,
-                html: data.data.data.html,
-                css: '',
-                js: '',
-            })
+                res.render('./page.ejs', {
+                    title: data.data.data.title,
+                    html: data.data.data.html,
+                    css: '',
+                    js: '',
+                })
             }else{
                 res.redirect(data.data.data.link);
             }
