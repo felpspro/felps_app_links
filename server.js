@@ -6,6 +6,8 @@ const app  = express();
 dotenv.config();
 
 app.use(cors({ origin: '*' }));
+app.use(express.json());
+app.use(express.raw({ type: 'application/json' }));
 app.set("view engine", "ejs");
 
 // Config
@@ -24,18 +26,38 @@ const ignoreUrl = [
     '/favicon.ico'           
 ]
 
+app.post('/api', async (req, res) => {
+    try {
+        const { url } = req.body
+        const data = await API({
+            method: "GET",
+            url: "/module/links/public/get",
+            params: { url }
+        })
+        .then(response => ({
+                status: response.status,
+                data: response.data
+        }))
+        .catch(error => {
+            return {
+                status: error.response?.status || 500,
+                data: error.response?.data || error?.message
+            }
+        })
+        res.sendStatus(data.status)
+    } catch (error) {
+        res.status(500).json({
+            message: "Erro interno na api"
+        })
+    }
+})
+
 app.get(/.*/, async (req, res) => {
     try {
         const check = ignoreUrl.indexOf(req.path) == -1;
         if(!check){
             return res.status(204).end(); // ou apenas res.end()
         }
-
-        console.log({
-            method: "GET",
-            url: "/module/links/public/get",
-            params: { url: req.path }
-        })
 
         // Buscar na api
         const data = await API({
