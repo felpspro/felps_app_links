@@ -44,7 +44,14 @@ app.post('/api', async (req, res) => {
                 data: error.response?.data || error?.message
             }
         })
-        res.sendStatus(data.status)
+        if(data.status == 200){
+            res.status(200).json({
+                url: data.data.data.link.from.link
+            })
+        }else{
+            res.sendStatus(data.status)
+        }
+        
     } catch (error) {
         res.status(500).json({
             message: "Erro interno na api"
@@ -84,7 +91,7 @@ app.get(/.*/, async (req, res) => {
                     js: '',
                 })
             }else{
-                res.redirect(data.data.data.link);
+                res.redirect(data.data.data.link.to.link);
             }
         }else{
             res.redirect('https://felps.com.br');
