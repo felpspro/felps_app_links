@@ -1,9 +1,11 @@
 import express from 'express';
 import dotenv from 'dotenv'
 import axios from 'axios'
+import cors from 'cors';
 const app  = express();
 dotenv.config();
 
+app.use(cors({ origin: '*' }));
 app.set("view engine", "ejs");
 
 // Config
